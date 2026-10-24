@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>专注时钟 · 番茄钟与任务统计</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍅</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body data-mode="focus">
+  <header class="topbar">
+    <h1>🍅 专注时钟</h1>
+    <button id="btn-settings" class="ghost-btn" type="button">⚙ 设置</button>
+  </header>
+
+  <main class="layout">
+    <section class="card timer-card" aria-label="番茄钟">
+      <div class="mode-tabs" id="mode-tabs">
+        <button type="button" data-mode="focus" class="tab active">专注</button>
+        <button type="button" data-mode="short" class="tab">短休息</button>
+        <button type="button" data-mode="long" class="tab">长休息</button>
+      </div>
+
+      <div class="ring-wrap">
+        <div class="ring" id="ring">
+          <div class="ring-inner">
+            <div class="time" id="time-display">25:00</div>
+            <div class="mode-label" id="mode-label">专注</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="timer-controls">
+        <button id="btn-start" class="primary-btn" type="button">开始</button>
+        <button id="btn-reset" class="ghost-btn" type="button">重置</button>
+      </div>
+
+      <div class="cycle-dots" id="cycle-dots" title="本轮番茄进度"></div>
+      <div class="current-task" id="current-task">未选择专注任务</div>
+    </section>
+
+    <section class="card tasks-card" aria-label="任务清单">
+      <h2>任务清单</h2>
+      <form id="task-form" class="task-form" autocomplete="off">
+        <input id="task-input" type="text" maxlength="100" placeholder="要专注做什么？（回车添加）" />
+        <button class="primary-btn" type="submit">添加</button>
+      </form>
+      <ul id="task-list" class="task-list"></ul>
+      <p id="task-empty" class="empty-tip" hidden>还没有任务，添加一个开始专注吧</p>
+    </section>
+
+    <section class="card stats-card" aria-label="专注统计">
+      <h2>近 7 天专注</h2>
+      <p class="summary" id="stats-summary"></p>
+      <div class="chart" id="chart" aria-label="近 7 天每日专注分钟数柱状图"></div>
+    </section>
+  </main>
+
+  <div class="overlay" id="settings-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+      <h3 id="settings-title">设置</h3>
+      <div class="form-grid">
+        <label>专注时长（分钟）
+          <input id="set-focus" type="number" min="1" max="180" step="1" inputmode="numeric" />
+        </label>
+        <label>短休息（分钟）
+          <input id="set-short" type="number" min="1" max="60" step="1" inputmode="numeric" />
+        </label>
+        <label>长休息（分钟）
+          <input id="set-long" type="number" min="1" max="90" step="1" inputmode="numeric" />
+        </label>
+        <label>长休息间隔（每 N 个番茄）
+          <input id="set-every" type="number" min="2" max="8" step="1" inputmode="numeric" />
+        </label>
+        <label class="check"><input id="chk-autobreak" type="checkbox" /> 专注结束后自动开始休息</label>
+        <label class="check"><input id="chk-autofocus" type="checkbox" /> 休息结束后自动开始专注</label>
+        <label class="check"><input id="chk-sound" type="checkbox" /> 倒计时结束播放提示音</label>
+        <label class="check"><input id="chk-notify" type="checkbox" /> 倒计时结束桌面通知</label>
+      </div>
+      <p class="hint" id="notify-hint"></p>
+      <div class="modal-actions">
+        <button id="btn-cancel" class="ghost-btn" type="button">取消</button>
+        <button id="btn-save" class="primary-btn" type="button">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
